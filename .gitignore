@@ -1,3 +1,16 @@
-"node_modules/" 
-".env" 
-".DS_Store" 
+# Dependency directories
+node_modules/
+
+# Environment variables (CRITICAL: Never commit .env files)
+.env
+.env.local
+.env.development
+.env.production
+
+# Build outputs
+dist/
+build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
