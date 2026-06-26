@@ -13,17 +13,30 @@ export default {
           800: '#0B0C10', 
         },
         kinetic: {
-          500: '#8A2BE2', 
-          400: '#9D4EDD', 
+          400: '#9D4EDD', // Lighter purple
+          500: '#8A2BE2', // Core Neon Purple
+          600: '#7B2CBF', // Deep Purple (Used in your light mode)
+          700: '#5A189A', // Darkest Purple
         },
         hologram: {
-          500: '#00F0FF', 
+          400: '#48CAE4', 
+          500: '#00F0FF', // Core Cyan
+          600: '#00B4D8', 
+          700: '#0077B6', 
         }
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['Space Grotesk', 'monospace'], 
-      }
+      },
+      animation: {
+        shine: "shine 0.8s ease-in-out",
+      },
+      keyframes: {
+        shine: {
+          "100%": { left: "125%" },
+        },
+      },
     },
   },
   plugins: [],
