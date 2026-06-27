@@ -67,7 +67,7 @@ const Hero = () => {
               <span className="relative z-10 flex items-center gap-2">
                 Explore Work <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-white opacity-20 group-hover:animate-shine" />
+              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-white opacity-30 group-hover:animate-shine" />
             </button>
             
             {/* Secondary Action Button - Forced dark border/text in light mode */}
@@ -75,12 +75,12 @@ const Hero = () => {
               href="https://drive.google.com/file/d/1YwQ2rVrPTSiihZEt82FrzGFxwOdtWjBE/view" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="h-14 w-full sm:w-[220px] flex items-center justify-center gap-2 border-2 border-gray-900 text-gray-900 dark:border-white/20 dark:text-gray-300 hover:bg-gray-100 dark:hover:border-white transition-all relative overflow-hidden group rounded-full"
+              className="h-14 w-full sm:w-[220px] flex items-center justify-center gap-2 border-2 border-gray-900 text-gray-900 dark:border-white/20 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-black/50 dark:hover:border-white transition-all relative overflow-hidden group rounded-full"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Resume <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
               </span>
-              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gray-900 dark:bg-white opacity-10 group-hover:animate-shine" />
+              <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gray-900 dark:bg-white opacity-20 group-hover:animate-shine" />
             </a>
           </motion.div>
         </div>

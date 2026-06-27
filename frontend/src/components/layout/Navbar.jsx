@@ -21,9 +21,9 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 transition-all duration-500 ${
         isScrolled 
-          ? 'bg-white/70 dark:bg-vibranium-900/70 backdrop-blur-lg border-b border-gray-200/50 dark:border-white/5 shadow-sm' 
+          ? 'bg-white/80 dark:bg-vibranium-900/55 backdrop-blur-sm border-b border-gray-200/20 dark:border-white/10 shadow-lg' 
           : 'bg-transparent border-transparent'
       }`}
     >
@@ -36,27 +36,27 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Navigation Links */}
-      <div className="hidden md:flex gap-2 font-sans font-medium text-sm text-gray-600 dark:text-gray-400">
-        <a href="#about" className="px-5 py-2 rounded-full hover:bg-gray-200/60 hover:text-kinetic-500 dark:hover:bg-white/10 active:bg-kinetic-500/20 active:text-kinetic-600 dark:active:text-kinetic-400 transition-all">About</a>
-        <a href="#projects" className="px-5 py-2 rounded-full hover:bg-gray-200/60 hover:text-kinetic-500 dark:hover:bg-white/10 active:bg-kinetic-500/20 active:text-kinetic-600 dark:active:text-kinetic-400 transition-all">Projects</a>
-        <a href="#experience" className="px-5 py-2 rounded-full hover:bg-gray-200/60 hover:text-kinetic-500 dark:hover:bg-white/10 active:bg-kinetic-500/20 active:text-kinetic-600 dark:active:text-kinetic-400 transition-all">Experience</a>
+      <div className="hidden md:flex gap-2 font-sans font-medium text-sm text-white">
+        <a href="#about" className="px-5 py-2 rounded-full bg-kinetic-500 hover:bg-kinetic-700 dark:hover:bg-kinetic-600 transition-all">About</a>
+        <a href="#projects" className="px-5 py-2 rounded-full bg-kinetic-500 hover:bg-kinetic-700 dark:hover:bg-kinetic-600 transition-all">Projects</a>
+        <a href="#experience" className="px-5 py-2 rounded-full bg-kinetic-500 hover:bg-kinetic-700 dark:hover:bg-kinetic-600 transition-all">Experience</a>
       </div>
 
       {/* Actions */}
       <div className="flex items-center gap-4">
         <button 
           onClick={toggleTheme}
-          className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-200/60 dark:hover:bg-white/10 transition-colors"
+          className="p-2 rounded-full border border-black/50 dark:border-white/80 text-gray-600 dark:text-gray-400 hover:bg-gray-200/60 dark:hover:bg-white/10 transition-colors"
         >
           {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
         
         {/* Contact Button */}
-        <button className="hidden md:flex items-center justify-center gap-2 h-10 px-6 bg-kinetic-500/10 text-kinetic-600 dark:text-kinetic-400 border border-kinetic-500/30 rounded-full font-sans font-medium text-sm hover:bg-kinetic-500/20 hover:border-kinetic-500/60 transition-all relative overflow-hidden group">
+        <button className="hidden md:flex items-center justify-center gap-2 h-10 px-6 bg-kinetic-500 text-white dark:text-white hover:bg-kinetic-700 dark:hover:bg-kinetic-600 transition-colors relative overflow-hidden group rounded-full shadow-lg shadow-kinetic-500/30">
           <span className="relative z-10 flex items-center gap-2">
             Contact <Send className="w-4 h-4" />
           </span>
-          <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-kinetic-500 opacity-20 group-hover:animate-shine" />
+          <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-white opacity-30 group-hover:animate-shine" />
         </button>
       </div>
     </motion.nav>

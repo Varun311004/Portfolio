@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-assignment */
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -6,7 +7,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, X, ArrowRight } from 'lucide-react';
 import { projectsData } from '../../data/projects';
 
-// 1. Dynamic Laser Tethers (Stretches between nodes in real-time)
+// 1. Independent Rotating Galaxy
+const RotatingGalaxy = () => {
+  const starsRef = useRef();
+  
+  useFrame((state, delta) => {
+    if (starsRef.current) {
+      starsRef.current.rotation.y -= delta * 0.03;
+      starsRef.current.rotation.x -= delta * 0.01;
+    }
+  });
+
+  return (
+    <group ref={starsRef}>
+      <Stars radius={100} depth={50} count={4000} factor={5} saturation={1} fade speed={1.5} />
+    </group>
+  );
+};
+
+// 2. Dynamic Laser Tethers
 const DynamicLine = ({ indexA, indexB, color, isActive, nodeRefs }) => {
   const geoRef = useRef();
   
@@ -14,7 +33,6 @@ const DynamicLine = ({ indexA, indexB, color, isActive, nodeRefs }) => {
     const refA = nodeRefs.current[indexA];
     const refB = nodeRefs.current[indexB];
     if (geoRef.current && refA && refB) {
-      // Update line points every frame based on actual node positions
       const pos = new Float32Array([
         refA.position.x, refA.position.y, refA.position.z,
         refB.position.x, refB.position.y, refB.position.z
@@ -26,68 +44,63 @@ const DynamicLine = ({ indexA, indexB, color, isActive, nodeRefs }) => {
   return (
     <line>
       <bufferGeometry ref={geoRef} />
-      <lineBasicMaterial color={color} transparent opacity={isActive ? 0.1 : 0.3} />
+      <lineBasicMaterial color={color} transparent opacity={isActive ? 0.15 : 0.3} />
     </line>
   );
 };
 
-// 2. Quantum Neural Node with Independent Flight Physics
+// 3. Quantum Neural Node with Constrained 3-Axis Physics
 const NeuralNode = forwardRef(({ project, active, isAnyActive, onClick }, ref) => {
   const groupRef = useRef();
   const haloRef = useRef();
   const [hovered, setHovered] = useState(false);
 
-  // Expose the group ref to the parent for line tethering
   useImperativeHandle(ref, () => groupRef.current);
 
-  // Base physics calculations
   const [ox, oy, oz] = project.coordinates;
   const radius = Math.sqrt(ox * ox + oz * oz);
   const baseAngle = Math.atan2(oz, ox);
 
   useFrame((state, delta) => {
-    // Halo Rotation
     if (haloRef.current) {
       haloRef.current.rotation.x -= delta * 0.3;
       haloRef.current.rotation.y += delta * 0.4;
     }
 
-    // Flight & Orbit Physics
-    const t = state.clock.elapsedTime * 0.2; 
+    const t = state.clock.elapsedTime * 0.25; 
     let targetX = ox;
     let targetY = oy;
     let targetZ = oz;
 
     if (active) {
-      // THE ANCHOR: Selected node flies to fixed point near the drawer and stops
+      // Anchored position when selected
       targetX = 1.2; 
       targetY = 0;
       targetZ = 1.5; 
     } else {
-      // THE ORBIT: Calculate continuous circular motion
-      targetX = Math.cos(baseAngle + t) * radius;
-      targetZ = Math.sin(baseAngle + t) * radius;
+      // CONSTRAINED PHYSICS: Tighten the radius and dampen the Y-axis bounce
+      const boundedRadius = radius * 0.8; 
+      targetX = Math.cos(baseAngle + t) * boundedRadius;
+      targetZ = Math.sin(baseAngle + t) * boundedRadius;
+      
+      // Scale down the initial Y (oy * 0.6) and reduce the bobbing amplitude (0.7)
+      targetY = (oy * 0.6) + Math.sin(t * 1.5 + baseAngle) * 0.7; 
       
       if (isAnyActive) {
-        // Shift orbit center to the left to balance the screen while drawer is open
         targetX -= 1.8; 
       }
     }
 
-    // Smoothly glide the node to its calculated target
-    groupRef.current.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.05);
+    groupRef.current.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.04);
   });
 
   return (
     <group ref={groupRef}>
       <Float speed={active ? 0.5 : 2} rotationIntensity={0} floatIntensity={active ? 0.2 : 1.5}>
-        
-        {/* Outer Tech Halo */}
         <Sphere ref={haloRef} args={[active ? 0.6 : 0.45, 16, 16]}>
           <meshBasicMaterial color={project.color} wireframe transparent opacity={hovered || active ? 0.6 : 0.15} />
         </Sphere>
 
-        {/* Solid Emissive Core */}
         <Sphere
           args={[active ? 0.35 : 0.25, 32, 32]} 
           onClick={(e) => {
@@ -112,10 +125,10 @@ const NeuralNode = forwardRef(({ project, active, isAnyActive, onClick }, ref) =
           />
         </Sphere>
         
-        {/* Locked Billboard Text */}
         <Billboard position={[0, -0.9, 0]}>
           <Text
             fontSize={0.25}
+            depthTest={false}
             color={hovered || active ? "#FFFFFF" : "#888888"}
             anchorX="center"
             anchorY="middle"
@@ -129,21 +142,17 @@ const NeuralNode = forwardRef(({ project, active, isAnyActive, onClick }, ref) =
   );
 });
 
-NeuralNode.displayName = "NeuralNode"; // Required for forwardRef
+NeuralNode.displayName = "NeuralNode";
 
-// 3. The Main Section Component
+// 4. The Main Section Component
 const Projects = () => {
   const [activeProject, setActiveProject] = useState(null);
-  const nodeRefs = useRef([]); // Stores references to all nodes for the laser tethers
+  const nodeRefs = useRef([]); 
 
   return (
     <section id="projects" className="relative h-screen w-full bg-vibranium-900 border-t border-white/5 overflow-hidden">
-      
-      {/* 3D Canvas - Always full screen, nodes do the moving, not the canvas */}
-      <div 
-        className="w-full h-full relative cursor-grab active:cursor-grabbing"
-      >
-        {/* Overlay Title */}
+      <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
+        
         <div className="absolute top-24 left-8 md:left-16 z-10 pointer-events-none">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -160,20 +169,22 @@ const Projects = () => {
         </div>
 
         <Canvas 
-          camera={{ position: [0, 0, 9], fov: 45 }}
+          camera={{ position: [0, 0, 10.5], fov: 45 }} // CAMERA PULLED BACK
           onPointerMissed={() => setActiveProject(null)} 
+          gl={{ preserveDrawingBuffer: true, antialias: true }}
+          dpr={[1, 2]}
         >
           <ambientLight intensity={0.2} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
-          <Stars radius={100} depth={50} count={3000} factor={3} saturation={1} fade speed={1.5} />
+          
+          <RotatingGalaxy />
           
           <OrbitControls 
             enableZoom={false} 
             enablePan={false}
-            autoRotate={false} // WE DO NOT ROTATE THE CAMERA ANYMORE. THE NODES ROTATE THEMSELVES.
+            autoRotate={false} 
           />
           
-          {/* Render Nodes */}
           {projectsData.map((project, i) => (
             <NeuralNode
               key={project.id}
@@ -185,7 +196,6 @@ const Projects = () => {
             />
           ))}
 
-          {/* Render Dynamic Laser Tethers */}
           {projectsData.map((project, i) => {
             const nextI = (i + 1) % projectsData.length;
             const isTetherActive = activeProject && (activeProject.id === project.id || activeProject.id === projectsData[nextI].id);
@@ -200,11 +210,9 @@ const Projects = () => {
               />
             )
           })}
-
         </Canvas>
       </div>
 
-      {/* 4. Edge-to-Edge Slide-Out Command Panel */}
       <AnimatePresence>
         {activeProject && (
           <motion.div 
@@ -214,13 +222,11 @@ const Projects = () => {
             transition={{ type: "spring", stiffness: 250, damping: 30 }}
             className="absolute top-0 right-0 h-full w-full lg:w-[35%] max-w-[500px] bg-vibranium-800/90 backdrop-blur-2xl border-l border-white/10 z-50 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
           >
-            {/* Dynamic Glowing Accent Top Bar */}
             <div 
               className="w-full h-1.5 opacity-90"
               style={{ backgroundColor: activeProject.color, boxShadow: `0 0 20px ${activeProject.color}` }}
             />
 
-            {/* Panel Header */}
             <div className="flex items-center justify-between p-8 pb-4 border-b border-white/5">
               <span className="text-xs font-mono font-bold tracking-widest uppercase text-gray-400">
                 // Node_Inspected
@@ -233,9 +239,7 @@ const Projects = () => {
               </button>
             </div>
 
-            {/* Panel Content Scroll Area */}
             <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-              
               <div className="mb-8">
                 <h4 className="text-4xl font-sans font-bold text-white mb-2 tracking-tight leading-tight">
                   {activeProject.title}
@@ -268,10 +272,8 @@ const Projects = () => {
                   ))}
                 </div>
               </div>
-
             </div>
 
-            {/* Panel Footer (Sticky Actions) */}
             <div className="p-8 border-t border-white/5 bg-vibranium-900/50 flex gap-4">
               {activeProject.github && (
                 <a 
@@ -301,11 +303,9 @@ const Projects = () => {
                 </a>
               )}
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
-
     </section>
   );
 };

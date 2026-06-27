@@ -25,6 +25,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  scroll-behavior: smooth;
+
   @media (max-width: 1024px) {
     font-size: 16px;
   }
@@ -118,6 +120,9 @@ code {
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     /* Notice the addition of dark: classes */
     @apply bg-gray-50 dark:bg-vibranium-900 text-gray-900 dark:text-gray-100 antialiased selection:bg-kinetic-500 selection:text-white transition-colors duration-300;
