@@ -47,7 +47,7 @@ const About = () => {
           scale: [1, 1.2, 0.9, 1.3, 0.8, 1],
         }}
         transition={{ duration: 45, ease: "linear", repeat: Infinity }}
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-br from-kinetic-500/20 to-cyan-500/20 dark:from-kinetic-500/15 dark:to-hologram-500/15 blur-[120px] rounded-full pointer-events-none z-0"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-br from-kinetic-500/20 to-cyan-500/20 dark:from-kinetic-500/15 dark:to-hologram-500/15 blur-[120px] rounded-full pointer-events-none z-0 will-change-transform"
       />
 
       <div className="relative z-10 max-w-7xl mx-auto">

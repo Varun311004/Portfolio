@@ -137,10 +137,11 @@ const Hero = () => {
               y: [0, -150, 90, 50, -120, 80, 0],
               rotate: [0, 180, 360],
               scale: [1, 1.1, 0.9, 1.15, 0.95, 1.05, 1],
-              borderRadius: ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 50% 60% 40% 50%", "40% 60% 70% 30% / 40% 50% 60% 50%"]
+              // borderRadius: ["40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 50% 60% 40% 50%", "40% 60% 70% 30% / 40% 50% 60% 50%"]
             }}
             transition={{ duration: 35, ease: "linear", repeat: Infinity }}
-            className="absolute -top-[10%] -right-[10%] w-[450px] h-[450px] border-[2px] border-kinetic-500/40 dark:border-kinetic-500/30 z-0"
+            className="absolute -top-[10%] -right-[10%] w-[450px] h-[450px] border-[2px] border-kinetic-500/40 dark:border-kinetic-500/30 z-0 will-change-transform"
+            style={{ borderRadius: "40% 60% 70% 30% / 40% 50% 60% 50%" }}
           />
           <motion.div 
             animate={{ 
@@ -148,10 +149,11 @@ const Hero = () => {
               y: [0, 120, -150, -80, 100, -50, 0],
               rotate: [360, 180, 0],
               scale: [1, 0.9, 1.15, 0.85, 1.1, 0.95, 1],
-              borderRadius: ["60% 40% 30% 70% / 50% 60% 40% 50%", "40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 50% 60% 40% 50%"]
+              // borderRadius: ["60% 40% 30% 70% / 50% 60% 40% 50%", "40% 60% 70% 30% / 40% 50% 60% 50%", "60% 40% 30% 70% / 50% 60% 40% 50%"]
             }}
             transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-            className="absolute -bottom-[10%] right-[10%] w-[400px] h-[400px] border-[2px] border-cyan-500/40 dark:border-hologram-500/30 z-0"
+            className="absolute -bottom-[10%] right-[10%] w-[400px] h-[400px] border-[2px] border-cyan-500/40 dark:border-hologram-500/30 z-0 will-change-transform"
+            style={{ borderRadius: "60% 40% 30% 70% / 50% 60% 40% 50%" }}
           />
           
         </motion.div>

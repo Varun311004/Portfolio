@@ -20,7 +20,7 @@ const RotatingGalaxy = () => {
 
   return (
     <group ref={starsRef}>
-      <Stars radius={100} depth={50} count={4000} factor={5} saturation={1} fade speed={1.5} />
+      <Stars radius={70} depth={50} count={1500} factor={5} saturation={1} fade speed={1.5} />
     </group>
   );
 };
@@ -97,12 +97,12 @@ const NeuralNode = forwardRef(({ project, active, isAnyActive, onClick }, ref) =
   return (
     <group ref={groupRef}>
       <Float speed={active ? 0.5 : 2} rotationIntensity={0} floatIntensity={active ? 0.2 : 1.5}>
-        <Sphere ref={haloRef} args={[active ? 0.6 : 0.45, 16, 16]}>
+        <Sphere ref={haloRef} args={[active ? 0.6 : 0.45, 12, 12]}>
           <meshBasicMaterial color={project.color} wireframe transparent opacity={hovered || active ? 0.6 : 0.15} />
         </Sphere>
 
         <Sphere
-          args={[active ? 0.35 : 0.25, 32, 32]} 
+          args={[active ? 0.35 : 0.25, 24, 24]} 
           onClick={(e) => {
             e.stopPropagation(); 
             onClick(project);
@@ -171,8 +171,8 @@ const Projects = () => {
         <Canvas 
           camera={{ position: [0, 0, 10.5], fov: 45 }} // CAMERA PULLED BACK
           onPointerMissed={() => setActiveProject(null)} 
-          gl={{ preserveDrawingBuffer: true, antialias: true }}
-          dpr={[1, 2]}
+          gl={{ antialias: true, powerPreference: "high-performance" }}
+          dpr={[1, 1.5]}
         >
           <ambientLight intensity={0.2} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
