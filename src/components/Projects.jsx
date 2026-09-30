@@ -4,6 +4,7 @@ import { ExternalLinkIcon, GithubIcon } from './Icons'
 import ElevateImage from '../assets/images/Elevate.png'
 import CortexaImage from '../assets/images/Cortexa.png'
 import FindEasyImage from '../assets/images/FindEasy.png'
+import DigiResultImage from '../assets/images/DigiResult.png'
 
 // Project screenshots live in src/assets/images. Add an image import + image property for each project when its real preview is ready.
 const projects = [
@@ -44,11 +45,12 @@ const projects = [
     desc: 'A student result management system with OTP-verified email authentication, replacing manual result distribution with a centralized portal.',
     tags: ['PHP', 'MySQL', 'JavaScript', 'SMTP'],
     github: 'https://github.com/Varun311004/DigiResult',
-    demo: '',
+    demo: 'https://digiresult.byethost16.com/',
+    image: DigiResultImage,
     art: 'digresult',
   },
   {
-    title: 'GeoLogr',
+    title: 'GeoLogr (App)',
     when: 'Dec 2022 – Apr 2023 · 4-person team',
     desc: 'A geofence-based staff attendance system for Android — location validation plus OpenCV facial recognition, built to cut down on attendance fraud.',
     tags: ['Java', 'Android Studio', 'Geofencing API', 'OpenCV', 'Firebase'],
