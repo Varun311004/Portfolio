@@ -3,6 +3,7 @@ import Reveal from './Reveal'
 import { ExternalLinkIcon, GithubIcon } from './Icons'
 import ElevateImage from '../assets/images/Elevate.png'
 import CortexaImage from '../assets/images/Cortexa.png'
+import FindEasyImage from '../assets/images/FindEasy.png'
 
 // Project screenshots live in src/assets/images. Add an image import + image property for each project when its real preview is ready.
 const projects = [
@@ -27,12 +28,14 @@ const projects = [
     art: 'cortexa',
   },
   {
-    title: 'FindEasy',
+    title: 'FindEasy (App)',
     when: 'Feb 2025 – Apr 2025 · Solo',
     desc: 'A mobile app connecting customers with verified local service providers — location-based discovery, booking management, and real-time notifications, built end to end on Firebase.',
     tags: ['Flutter', 'Firebase', 'Google Maps API', 'BLoC'],
     github: 'https://github.com/Varun311004/FindEasy',
-    demo: '',
+    demo: 'https://github.com/Varun311004/FindEasy/releases/latest/download/FindEasy-v1.0.0.apk',
+    demoLabel: 'Download Apk',
+    image: FindEasyImage,
     art: 'findeasy',
   },
   {
@@ -196,7 +199,7 @@ export function ProjectRow({ project }) {
             {project.demo && (
               <ProjectAction
                 href={project.demo}
-                label="Demo"
+                label={project.demoLabel || "Demo"}
                 icon={<ExternalLinkIcon />}
               />
             )}
